@@ -4,10 +4,10 @@
   "description": "A command line interface for generating and managing typescript projects.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tscli": "node index.js"
   },
   "bin": {
-    "tscli": "index.js"
+    "tscli": "node index.js"
   },
   "repository": {
     "type": "git",
