@@ -1,0 +1,22 @@
+{
+  "name": "tscli",
+  "version": "1.0.0",
+  "description": "A command line interface for generating and managing typescript projects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "tscli": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuncayBasak25/tscli.git"
+  },
+  "author": "Tuncay Basak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TuncayBasak25/tscli/issues"
+  },
+  "homepage": "https://github.com/TuncayBasak25/tscli#readme"
+}
