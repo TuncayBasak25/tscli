@@ -7,7 +7,7 @@
     "tscli": "node index.js"
   },
   "bin": {
-    "tscli": "node index.js"
+    "tscli": "index.js"
   },
   "repository": {
     "type": "git",
