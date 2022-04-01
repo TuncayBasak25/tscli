@@ -15,5 +15,5 @@ export default async function push(argumentsList: string[], optionList: string[]
     await terminal("git push");
 
     await terminal("tsc -p .");
-    await terminal("cd dist & git add. & git commit -m " + message + " & git push");
+    await terminal("cd dist & git add . & git commit -m " + message + " & git push");
 }
