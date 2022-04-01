@@ -2,7 +2,7 @@ import { existsSync } from "fs";
 import { join } from "path";
 import terminal from "../terminal";
 
-export default function push(argumentsList: string[], optionList: string[]): void {
+export default async function push(argumentsList: string[], optionList: string[]): Promise<void> {
     const message = argumentsList.length > 0 ? argumentsList[0] : "Upload";
 
     if (!existsSync(join(process.cwd(), ".git"))) {
@@ -10,14 +10,10 @@ export default function push(argumentsList: string[], optionList: string[]): voi
         return;
     }
 
-    terminal("git add .");
-    terminal("git commit -m " + message);
-    terminal("git push");
+    await terminal("git add .");
+    await terminal("git commit -m " + message);
+    await terminal("git push");
 
-    terminal("tsc -p .");
-    terminal("cd dist");
-
-    terminal("git add .");
-    terminal("git commit -m " + message);
-    terminal("git push")
+    await terminal("tsc -p .");
+    await terminal("cd dist & git add. & git commit -m " + message + " & git push");
 }

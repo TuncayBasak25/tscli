@@ -1,6 +1,8 @@
 const { exec } = require("child_process");
 
-export default function terminal(command: string) {
+export default function terminal(command: string): Promise<void> {
+    let next = () => {};
+
     exec(command, (error: Error, stdout: string, stderr: string) => {
         if (error) {
             console.log(`error: ${error.message}`);
@@ -11,5 +13,9 @@ export default function terminal(command: string) {
             return;
         }
         console.log(stdout);
+
+        next();
     });
+
+    return new Promise(resolve => next = resolve);
 }
