@@ -12,7 +12,7 @@ function default_1() {
     const serverTerminal = new terminal_1.default();
     sourceFolder.watch((eventType, filename) => {
         (0, compile_1.default)();
-        serverTerminal.run("node dist/index.js");
+        terminal_1.default.run("npx kill-port 3000", () => serverTerminal.run("node dist/index.js"));
     });
     serverTerminal.run("node dist/index.js");
 }

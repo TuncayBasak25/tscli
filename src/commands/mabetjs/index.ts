@@ -10,7 +10,10 @@ export default function() {
 
     sourceFolder.watch((eventType: string, filename: string) => {
         compile();
-        serverTerminal.run("node dist/index.js");
+        Terminal.run(
+            "npx kill-port 3000",
+            () => serverTerminal.run("node dist/index.js")
+        );
     });
 
     serverTerminal.run("node dist/index.js");
