@@ -27,12 +27,12 @@ export default function() {
         const serviceModuleList = serviceFolder.findAll();
 
         
-        let content = "\n\nexport default class Services {\n\n";
+        let content = `import { Controller } from "mabetjs"\n\nexport default class Services extends Controller{\n\n`;
         
         for (let serviceModule of serviceModuleList) {
             const className = serviceModule.name[0].toUpperCase() + serviceModule.name.slice(1);
             content =
-            `import ${serviceModule.name} from "./${serviceModule.name}"\n` +
+            `import ${className} from "./${serviceModule.name}"\n` +
             content +
             `\tprotected ${serviceModule.name}: ${className} = new ${className}();\n`;
         }
