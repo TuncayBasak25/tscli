@@ -1,5 +1,9 @@
-import terminal from "../terminal";
+import { Folder } from "explorer";
+import Terminal from "../terminal";
 
-export default async function push(argumentsList: string[], optionList: string[]): Promise<void> {
-    await terminal("tsc -p .");
+export default function compile(argumentsList: string[], optionList: string[]): void {
+    Terminal.run(
+        "rm -rf dist",
+        "tsc -p ."
+    );
 }

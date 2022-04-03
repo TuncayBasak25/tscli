@@ -1,24 +1,15 @@
-import { existsSync } from "fs";
-import { join } from "path";
-import terminal from "../terminal";
+import Git from "../git";
+import Terminal from "../terminal";
 
-export default async function push(argumentsList: string[], optionList: string[]): Promise<void> {
-    const message = argumentsList.length > 0 ? argumentsList[0] : "Upload";
+export default function push(argumentsList: string[], optionList: string[]): void {
+    
+    const message = argumentsList[0];
 
-    if (!existsSync(join(process.cwd(), ".git"))) {
-        console.log("The git repository is not initialized yet");
-        return;
-    }
-
-    await terminal("git add .");
-    await terminal(`git commit -m "${message}"`);
-    await terminal("git push");
-
-    await terminal("tsc -p .");
-
-    process.chdir("./dist");
-
-    await terminal("git add .");
-    await terminal(`git commit -m "${message}"`);
-    await terminal("git push");
+    
+    Terminal.run(
+        "rm -rf dist",
+        "tsc -p ."
+    );
+    
+    Git.push(message);
 }

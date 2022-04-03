@@ -4,10 +4,10 @@ import Terminal from "./terminal";
 
 export default class Git {
 
-    public static push(message: string = "Upload"): Git {
+    public static push(message: string = "Upload"): typeof Git {
         if (!existsSync(join(process.cwd(), ".git"))) {
             console.log("The git repository is not initialized yet");
-            return this;
+            return Git;
         }
 
         Terminal.run(
@@ -16,10 +16,10 @@ export default class Git {
             "git push"
         );
 
-        return this;
+        return Git;
     }
 
-    public static init(branchName: string = "main"): Git {
+    public static init(branchName: string = "main"): typeof Git {
         Terminal.run(
             "git init",
             "git add .",
@@ -27,14 +27,14 @@ export default class Git {
             `git branch -M ${branchName}`,
         );
 
-        return this;
+        return Git;
     }
 
-    public static create(repositoryName: string, visibility: "--public" | "--private" = "--private"): Git {
+    public static create(repositoryName: string, visibility: "--public" | "--private" = "--private"): typeof Git {
         Terminal.run(
             `gh repo create ${repositoryName} ${visibility} --source=. --push`
         );
 
-        return this;
+        return Git;
     }
 }

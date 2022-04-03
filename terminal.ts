@@ -12,6 +12,10 @@ export default class Terminal {
         this.main.run(...commandList);
     }
 
+    public static chdir(cwd: string): void {
+        this.main.chdir(cwd);
+    }
+
     private commandList: string[] = [];
     private onNewCommand(): void { }
 
