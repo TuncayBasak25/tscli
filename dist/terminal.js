@@ -24,13 +24,20 @@ class Terminal {
     static run(...commandList) {
         this.main.run(...commandList);
     }
+    static set onEnd(callback) {
+        this.main.onEnd = callback;
+    }
     static chdir(cwd) {
         this.main.chdir(cwd);
     }
-    onNewCommand() { }
+    onNewCommand() {
+    }
+    onEnd() {
+    }
     listen() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.commandList.length === 0) {
+                this.onEnd();
                 yield new Promise(resolve => this.onNewCommand = resolve);
             }
             const command = this.commandList.shift();

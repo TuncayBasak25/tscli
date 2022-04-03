@@ -12,12 +12,24 @@ export default class Terminal {
         this.main.run(...commandList);
     }
 
+    public static set onEnd(callback: () => void) {
+        this.main.onEnd = callback;
+    }
+
     public static chdir(cwd: string): void {
         this.main.chdir(cwd);
     }
 
     private commandList: string[] = [];
-    private onNewCommand(): void { }
+
+    private onNewCommand(): void {
+
+    }
+
+    public onEnd(): void {
+
+    }
+
 
     private cwd: string = process.cwd();
 
@@ -27,6 +39,7 @@ export default class Terminal {
 
     private async listen(): Promise<void> {
         if (this.commandList.length === 0) {
+            this.onEnd();
             await new Promise<void>(resolve => this.onNewCommand = resolve);
         }
 
