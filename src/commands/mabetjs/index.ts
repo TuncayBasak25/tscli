@@ -1,7 +1,6 @@
 import { Folder } from "explorer";
 import path from "path";
 import Terminal from "../../terminal";
-import compile from "../compile";
 
 export default function() {
     const sourceFolder = new Folder(path.join(process.cwd(), "src"));
@@ -11,16 +10,38 @@ export default function() {
 
     compilerTerminal.run("tsc -w");
 
-    sourceFolder.watch((eventType: string, filename: string) => {        
+    sourceFolder.watch(() => {        
         Terminal.run(
             "npx kill-port 3000",
             () => serverTerminal.run("node dist/index.js")
         );
     });
 
-    sourceFolder.findFile({ name: { end: "controller.ts" } })?.watch(() => {
-        console.log("Controller modified");
+    sourceFolder.findFolder({ name: "services" })?.watch(({ subject: serviceFolder, filename }: { subject: Folder, filename: string }) => {
+        if (filename === "index.ts") {
+            return;
+        }
+
+        serviceFolder.createFile("index.ts").delete();
+
+        const serviceModuleList = serviceFolder.findAll();
+
+        
+        let content = "\n\nexport default class Services {\n\n";
+        
+        for (let serviceModule of serviceModuleList) {
+            const className = serviceModule.name[0].toUpperCase() + serviceModule.name.slice(1);
+            content =
+            `import ${serviceModule.name} from "./${serviceModule.name}"\n` +
+            content +
+            `\tprotected ${serviceModule.name}: ${className} = new ${className}();\n`;
+        }
+        
+        content += "\n}"
+
+        serviceFolder.createFile("index.ts").content = content;
     });
+
 
     serverTerminal.run("node dist/index.js");
 }
