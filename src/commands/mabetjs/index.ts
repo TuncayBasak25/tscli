@@ -7,15 +7,13 @@ export default function() {
     const sourceFolder = new Folder(path.join(process.cwd(), "src"));
 
     const serverTerminal = new Terminal();
+    const compilerTerminal = new Terminal();
 
-    sourceFolder.watch((eventType: string, filename: string) => {
-        console.log("Start compilation");
-        compile();
-        
+    compilerTerminal.run("tsc -w");
+
+    sourceFolder.watch((eventType: string, filename: string) => {        
         Terminal.run(
-            () => console.log("Compilation end, killing port 3000"),
             "npx kill-port 3000",
-            () => console.log("restarting server"),
             () => serverTerminal.run("node dist/index.js")
         );
     });
