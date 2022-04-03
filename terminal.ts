@@ -1,3 +1,6 @@
+import { existsSync } from "fs";
+import path from "path";
+
 const { exec } = require("child_process");
 
 
@@ -11,6 +14,8 @@ export default class Terminal {
 
     private commandList: string[] = [];
     private onNewCommand(): void { }
+
+    private cwd: string = process.cwd();
 
     public constructor() {
         this.listen();
@@ -34,10 +39,20 @@ export default class Terminal {
         this.onNewCommand();
     }
 
+    public chdir(relativePath: string): void {
+        const cwd = path.join(this.cwd, relativePath);
+
+        if (!existsSync(cwd)) {
+            console.error(cwd + " is not an existing directory.");
+        }
+
+        this.cwd = cwd;
+    }
+
     private async exec(command: string): Promise<void> {
         let next = () => { };
 
-        exec(command, (error: Error, stdout: string, stderr: string) => {
+        exec(command, { cwd: this.cwd }, (error: Error, stdout: string, stderr: string) => {
             if (error) {
                 console.log(`error: ${error.message}`);
             }
@@ -48,6 +63,7 @@ export default class Terminal {
 
             next();
         });
+
 
         return new Promise(resolve => next = resolve);
     }
