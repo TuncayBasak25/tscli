@@ -1,5 +1,6 @@
 import { existsSync } from "fs";
 import { join } from "path";
+import compile from "./commands/compile";
 import Terminal from "./terminal";
 
 export default class Git {
@@ -9,6 +10,8 @@ export default class Git {
             console.log("The git repository is not initialized yet");
             return Git;
         }
+
+        compile();
 
         Terminal.run(
             "git add .",

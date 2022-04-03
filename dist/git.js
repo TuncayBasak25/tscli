@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const path_1 = require("path");
+const compile_1 = __importDefault(require("./commands/compile"));
 const terminal_1 = __importDefault(require("./terminal"));
 class Git {
     static push(message = "Upload") {
@@ -12,6 +13,7 @@ class Git {
             console.log("The git repository is not initialized yet");
             return Git;
         }
+        (0, compile_1.default)();
         terminal_1.default.run("git add .", `git commit -m "${message}"`, "git push");
         return Git;
     }

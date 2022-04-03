@@ -7,6 +7,7 @@ const explorer_1 = require("explorer");
 const path_1 = require("path");
 const git_1 = __importDefault(require("../../git"));
 const terminal_1 = __importDefault(require("../../terminal"));
+const compile_1 = __importDefault(require("../compile"));
 function default_1(argumentsList, optionList) {
     var _a, _b;
     console.log("Create new typescript project");
@@ -23,7 +24,7 @@ function default_1(argumentsList, optionList) {
     projectFolder.createFolder("src").createFile("index.ts");
     terminal_1.default.chdir(projectname);
     terminal_1.default.run("npm install");
-    terminal_1.default.run("tscli compile");
+    (0, compile_1.default)();
     git_1.default.init().create(projectname, optionList.includes("--public") ? "--public" : "--private");
 }
 exports.default = default_1;

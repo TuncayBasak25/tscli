@@ -1,7 +1,8 @@
-import { File, Folder } from "explorer";
+import { Folder } from "explorer";
 import { join } from "path";
 import Git from "../../git";
 import Terminal from "../../terminal";
+import compile from "../compile";
 
 
 export default function(argumentsList: string[], optionList: string[]): void {
@@ -27,7 +28,8 @@ export default function(argumentsList: string[], optionList: string[]): void {
     Terminal.chdir(projectname);
 
     Terminal.run("npm install");
-    Terminal.run("tscli compile");
+    
+    compile();
 
     Git.init().create(projectname, optionList.includes("--public") ? "--public" : "--private");
 }

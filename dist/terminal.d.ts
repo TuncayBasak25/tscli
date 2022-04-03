@@ -1,16 +1,16 @@
+declare type Command = string | (() => void);
 export default class Terminal {
     private static main;
-    static run(...commandList: string[]): void;
-    static set onEnd(callback: () => void);
+    static run(...commandList: Command[]): void;
     static chdir(cwd: string): void;
     private commandList;
     private onNewCommand;
-    onEnd(): void;
     private cwd;
     constructor();
     private listen;
-    run(...commandList: string[]): void;
+    run(...commandList: Command[]): void;
     chdir(relativePath: string): void;
     private exec;
 }
+export {};
 //# sourceMappingURL=terminal.d.ts.map

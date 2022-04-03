@@ -1,2 +1,2 @@
-export default function (argumentsList: string[], optionList: string[]): void;
+export default function (): void;
 //# sourceMappingURL=compile.d.ts.map

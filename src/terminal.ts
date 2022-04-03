@@ -3,34 +3,23 @@ import path from "path";
 
 const { exec } = require("child_process");
 
+type Command = string | (() => void);
 
 export default class Terminal {
 
     private static main: Terminal = new Terminal();
 
-    public static run(...commandList: string[]): void {
+    public static run(...commandList: Command[]): void {
         this.main.run(...commandList);
-    }
-
-    public static set onEnd(callback: () => void) {
-        this.main.onEnd = callback;
     }
 
     public static chdir(cwd: string): void {
         this.main.chdir(cwd);
     }
 
-    private commandList: string[] = [];
 
-    private onNewCommand(): void {
-
-    }
-
-    public onEnd(): void {
-
-    }
-
-
+    private commandList: Command[] = [];
+    private onNewCommand(): void {}
     private cwd: string = process.cwd();
 
     public constructor() {
@@ -39,31 +28,37 @@ export default class Terminal {
 
     private async listen(): Promise<void> {
         if (this.commandList.length === 0) {
-            this.onEnd();
             await new Promise<void>(resolve => this.onNewCommand = resolve);
         }
 
-        const command = this.commandList.shift() as string;
+        const command = this.commandList.shift();
 
-        await this.exec(command);
+        if (typeof command === 'string') {
+            await this.exec(command);
+        }
+        else if (command) {
+            command();
+        }
 
         this.listen();
     }
 
-    public run(...commandList: string[]): void {
+    public run(...commandList: Command[]): void {
         this.commandList.push(...commandList);
 
         this.onNewCommand();
     }
 
     public chdir(relativePath: string): void {
-        const cwd = path.join(this.cwd, relativePath);
+        this.run(() => {
+            const cwd = path.join(this.cwd, relativePath);
 
-        if (!existsSync(cwd)) {
-            console.error(cwd + " is not an existing directory.");
-        }
+            if (!existsSync(cwd)) {
+                console.error(cwd + " is not an existing directory.");
+            }
 
-        this.cwd = cwd;
+            this.cwd = cwd;
+        });
     }
 
     private async exec(command: string): Promise<void> {

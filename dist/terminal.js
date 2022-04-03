@@ -24,24 +24,22 @@ class Terminal {
     static run(...commandList) {
         this.main.run(...commandList);
     }
-    static set onEnd(callback) {
-        this.main.onEnd = callback;
-    }
     static chdir(cwd) {
         this.main.chdir(cwd);
     }
-    onNewCommand() {
-    }
-    onEnd() {
-    }
+    onNewCommand() { }
     listen() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.commandList.length === 0) {
-                this.onEnd();
                 yield new Promise(resolve => this.onNewCommand = resolve);
             }
             const command = this.commandList.shift();
-            yield this.exec(command);
+            if (typeof command === 'string') {
+                yield this.exec(command);
+            }
+            else if (command) {
+                command();
+            }
             this.listen();
         });
     }
@@ -50,11 +48,13 @@ class Terminal {
         this.onNewCommand();
     }
     chdir(relativePath) {
-        const cwd = path_1.default.join(this.cwd, relativePath);
-        if (!(0, fs_1.existsSync)(cwd)) {
-            console.error(cwd + " is not an existing directory.");
-        }
-        this.cwd = cwd;
+        this.run(() => {
+            const cwd = path_1.default.join(this.cwd, relativePath);
+            if (!(0, fs_1.existsSync)(cwd)) {
+                console.error(cwd + " is not an existing directory.");
+            }
+            this.cwd = cwd;
+        });
     }
     exec(command) {
         return __awaiter(this, void 0, void 0, function* () {
