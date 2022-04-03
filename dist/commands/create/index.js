@@ -7,7 +7,7 @@ const explorer_1 = require("explorer");
 const path_1 = require("path");
 const git_1 = __importDefault(require("../../git"));
 const terminal_1 = __importDefault(require("../../terminal"));
-function create(argumentsList, optionList) {
+function default_1(argumentsList, optionList) {
     var _a, _b;
     console.log("Create new typescript project");
     if (argumentsList.length === 0) {
@@ -20,8 +20,10 @@ function create(argumentsList, optionList) {
     projectFolder.createFile("package.json").content = ((_a = sourceFolder.findFile({ basename: "package" })) === null || _a === void 0 ? void 0 : _a.content).replace(/new_project/g, projectname);
     projectFolder.createFile("tsconfig.json").content = (_b = sourceFolder.findFile({ basename: "tsconfig" })) === null || _b === void 0 ? void 0 : _b.content;
     projectFolder.createFile(".gitignore").content = "node_modules";
+    projectFolder.createFolder("src").createFile("index.ts");
     terminal_1.default.chdir(projectname);
     terminal_1.default.run("npm install");
+    terminal_1.default.run("tscli compile");
     git_1.default.init().create(projectname, optionList.includes("--public") ? "--public" : "--private");
 }
-exports.default = create;
+exports.default = default_1;

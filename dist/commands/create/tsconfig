@@ -4,7 +4,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "module": "commonjs",
-        "rootDir": "./",
+        "rootDir": "./src",
         "outDir": "./dist",
         "moduleResolution": "node",
         "resolveJsonModule": true,
@@ -15,10 +15,6 @@
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "noImplicitAny": true,
-        "allowSyntheticDefaultImports": true,
-    },
-    "exclude": [
-        "node_modules",
-        "dist"
-    ]
+        "allowSyntheticDefaultImports": true
+    }
 }

@@ -1,7 +1,7 @@
 import Git from "../git";
 import Terminal from "../terminal";
 
-export default function push(argumentsList: string[], optionList: string[]): void {
+export default function(argumentsList: string[], optionList: string[]): void {
     
     const message = argumentsList[0];
 

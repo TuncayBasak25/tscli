@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const git_1 = __importDefault(require("../git"));
 const terminal_1 = __importDefault(require("../terminal"));
-function push(argumentsList, optionList) {
+function default_1(argumentsList, optionList) {
     const message = argumentsList[0];
     terminal_1.default.run("rm -rf dist", "tsc -p .");
     git_1.default.push(message);
 }
-exports.default = push;
+exports.default = default_1;

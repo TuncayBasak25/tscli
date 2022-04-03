@@ -1,2 +1,2 @@
-export default function app(argumentsList: string[], optionList: string[]): Promise<void>;
+export default function (argumentsList: string[], optionList: string[]): void;
 //# sourceMappingURL=app.d.ts.map
