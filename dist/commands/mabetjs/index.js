@@ -13,7 +13,7 @@ function default_1() {
     const compilerTerminal = new terminal_1.default();
     compilerTerminal.run("tsc -w");
     sourceFolder.watch(() => {
-        terminal_1.default.run("npx kill-port 3000", () => serverTerminal.run("node dist/index.js"));
+        terminal_1.default.run(() => serverTerminal.kill(), () => serverTerminal.run("node dist/index.js"));
     });
     (_a = sourceFolder.findFolder({ name: "services" })) === null || _a === void 0 ? void 0 : _a.watch(({ subject: serviceFolder, filename }) => {
         if (filename === "index.ts") {
@@ -21,9 +21,11 @@ function default_1() {
         }
         serviceFolder.createFile("index.ts").delete();
         const serviceModuleList = serviceFolder.findAll();
-        let content = `import { Controller } from "mabetjs"\n\nexport default class Services extends Controller{\n\n`;
+        let content = `import { Controller } from "mabetjs"\n\nexport default class Services extends Controller {\n\n`;
         for (let serviceModule of serviceModuleList) {
-            const className = serviceModule.name[0].toUpperCase() + serviceModule.name.slice(1);
+            const className = serviceModule.name[0]
+                .replace(/^[a-z]/, x => x.toUpperCase())
+                .replace(/\.[a-z]/g, x => x[1].toUpperCase());
             content =
                 `import ${className} from "./${serviceModule.name}"\n` +
                     content +

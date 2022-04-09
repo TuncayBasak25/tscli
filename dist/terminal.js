@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const path_1 = __importDefault(require("path"));
-const { exec } = require("child_process");
+const child_process_1 = require("child_process");
 class Terminal {
     constructor() {
         this.commandList = [];
@@ -56,20 +56,24 @@ class Terminal {
             this.cwd = cwd;
         });
     }
-    exec(command) {
+    kill() {
+        if (this.process) {
+            this.process.kill();
+        }
+    }
+    exec(expression) {
         return __awaiter(this, void 0, void 0, function* () {
-            let next = () => { };
-            exec(command, { cwd: this.cwd }, (error, stdout, stderr) => {
-                if (error) {
-                    console.log(`error: ${error.message}`);
-                }
-                if (stderr) {
-                    console.log(`stderr: ${stderr}`);
-                }
-                console.log(stdout);
-                next();
-            });
-            return new Promise(resolve => next = resolve);
+            let close = () => { };
+            const argumentList = expression.split(" ");
+            const command = argumentList.shift();
+            if (!command) {
+                throw new Error("Expression is empty");
+            }
+            this.process = (0, child_process_1.spawn)(command, argumentList, { cwd: this.cwd });
+            this.process.stdout.on('data', (data) => console.log(`stdout: ${data}`));
+            this.process.stderr.on('data', (data) => console.error(`stderr: ${data}`));
+            this.process.on('close', (code) => close());
+            return new Promise(resolve => close = resolve);
         });
     }
 }

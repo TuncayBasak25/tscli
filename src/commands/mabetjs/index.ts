@@ -12,7 +12,7 @@ export default function() {
 
     sourceFolder.watch(() => {        
         Terminal.run(
-            "npx kill-port 3000",
+            () => serverTerminal.kill(),
             () => serverTerminal.run("node dist/index.js")
         );
     });
@@ -27,10 +27,13 @@ export default function() {
         const serviceModuleList = serviceFolder.findAll();
 
         
-        let content = `import { Controller } from "mabetjs"\n\nexport default class Services extends Controller{\n\n`;
+        let content = `import { Controller } from "mabetjs"\n\nexport default class Services extends Controller {\n\n`;
         
         for (let serviceModule of serviceModuleList) {
-            const className = serviceModule.name[0].toUpperCase() + serviceModule.name.slice(1);
+            const className = serviceModule.name[0]
+                .replace(/^[a-z]/, x => x.toUpperCase())
+                .replace(/\.[a-z]/g, x => x[1].toUpperCase());
+                
             content =
             `import ${className} from "./${serviceModule.name}"\n` +
             content +

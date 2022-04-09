@@ -3,6 +3,7 @@ export default class Terminal {
     private static main;
     static run(...commandList: Command[]): void;
     static chdir(cwd: string): void;
+    private process?;
     private commandList;
     private onNewCommand;
     private cwd;
@@ -10,6 +11,7 @@ export default class Terminal {
     private listen;
     run(...commandList: Command[]): void;
     chdir(relativePath: string): void;
+    kill(): void;
     private exec;
 }
 export {};

@@ -1,12 +1,11 @@
 import { existsSync } from "fs";
 import path from "path";
-
-const { exec } = require("child_process");
+import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 
 type Command = string | (() => void);
 
 export default class Terminal {
-
+    
     private static main: Terminal = new Terminal();
 
     public static run(...commandList: Command[]): void {
@@ -17,7 +16,7 @@ export default class Terminal {
         this.main.chdir(cwd);
     }
 
-
+    private process?: ChildProcessWithoutNullStreams;
     private commandList: Command[] = [];
     private onNewCommand(): void {}
     private cwd: string = process.cwd();
@@ -61,22 +60,31 @@ export default class Terminal {
         });
     }
 
-    private async exec(command: string): Promise<void> {
-        let next = () => { };
+    public kill(): void {
+        if (this.process) {
+            this.process.kill();
+        }
+    }
 
-        exec(command, { cwd: this.cwd }, (error: Error, stdout: string, stderr: string) => {
-            if (error) {
-                console.log(`error: ${error.message}`);
-            }
-            if (stderr) {
-                console.log(`stderr: ${stderr}`);
-            }
-            console.log(stdout);
+    private async exec(expression: string): Promise<void> {
+        let close = () => { };
 
-            next();
-        });
+        const argumentList = expression.split(" ");
 
+        const command = argumentList.shift();
 
-        return new Promise(resolve => next = resolve);
+        if (!command) {
+            throw new Error("Expression is empty");
+        }
+
+        this.process = spawn(command, argumentList, { cwd: this.cwd });
+
+        this.process.stdout.on('data', (data) => console.log(`stdout: ${data}`) );
+
+        this.process.stderr.on('data', (data) => console.error(`stderr: ${data}`) );
+
+        this.process.on('close', (code) => close() );
+
+        return new Promise(resolve => close = resolve);
     }
 }
