@@ -69,7 +69,7 @@ class Terminal {
             if (!command) {
                 throw new Error("Expression is empty");
             }
-            this.process = (0, child_process_1.spawn)(command, argumentList, { cwd: this.cwd });
+            this.process = (0, child_process_1.spawn)(command, argumentList, { cwd: this.cwd, shell: true });
             this.process.stdout.on('data', (data) => console.log(`stdout: ${data}`));
             this.process.stderr.on('data', (data) => console.error(`stderr: ${data}`));
             this.process.on('close', (code) => close());

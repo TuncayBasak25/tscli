@@ -77,7 +77,7 @@ export default class Terminal {
             throw new Error("Expression is empty");
         }
 
-        this.process = spawn(command, argumentList, { cwd: this.cwd });
+        this.process = spawn(command, argumentList, { cwd: this.cwd, shell: true });
 
         this.process.stdout.on('data', (data) => console.log(`stdout: ${data}`) );
 
