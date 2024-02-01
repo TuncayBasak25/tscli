@@ -1,4 +1,4 @@
-declare type Command = string | (() => void);
+type Command = string | (() => void);
 export default class Terminal {
     private static main;
     static run(...commandList: Command[]): void;

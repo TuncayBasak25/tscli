@@ -16,11 +16,6 @@ const fs_1 = require("fs");
 const path_1 = __importDefault(require("path"));
 const child_process_1 = require("child_process");
 class Terminal {
-    constructor() {
-        this.commandList = [];
-        this.cwd = process.cwd();
-        this.listen();
-    }
     static run(...commandList) {
         this.main.run(...commandList);
     }
@@ -28,6 +23,11 @@ class Terminal {
         this.main.chdir(cwd);
     }
     onNewCommand() { }
+    constructor() {
+        this.commandList = [];
+        this.cwd = process.cwd();
+        this.listen();
+    }
     listen() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.commandList.length === 0) {
@@ -77,5 +77,5 @@ class Terminal {
         });
     }
 }
-exports.default = Terminal;
 Terminal.main = new Terminal();
+exports.default = Terminal;

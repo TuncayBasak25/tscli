@@ -8,7 +8,7 @@ const path_1 = __importDefault(require("path"));
 function default_1() {
     const sourceFolder = new explorer_1.Folder(path_1.default.join(process.cwd(), "src"));
     for (let file of sourceFolder.findAllFile({}, true)) {
-        if (file.extension !== ".ts" && file.extension !== ".js") {
+        if (file.extension !== ".js") {
             new explorer_1.File(file.path.replace(/src/, "dist")).content = file.content;
         }
     }
