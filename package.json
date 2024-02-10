@@ -22,6 +22,7 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
-    "explorer": "github:TuncayBasak25/explorer"
+    "explorer": "github:TuncayBasak25/explorer",
+    "file-system": "github:TuncayBasak25/file-system"
   }
 }
