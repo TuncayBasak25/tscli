@@ -10,6 +10,7 @@ const terminal_1 = __importDefault(require("../terminal"));
 function default_1() {
     const distFolder = new explorer_1.Folder(path_1.default.join(process.cwd(), "dist"));
     const srcFolder = new explorer_1.Folder(path_1.default.join(process.cwd(), "src"));
+    terminal_1.default.run(() => distFolder.delete(), "tsc -p .", copySrcFiles_1.default);
     srcFolder.watch(() => {
         terminal_1.default.run(() => distFolder.delete(), "tsc -p .", copySrcFiles_1.default);
     });
