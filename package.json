@@ -2,9 +2,9 @@
   "name": "tscli",
   "version": "1.0.0",
   "description": "A command line interface for generating and managing typescript projects.",
-  "main": "dist/index.js",
+  "main": "ts/index.js",
   "bin": {
-    "tscli": "dist/index.js"
+    "tscli": "ts/index.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
-    "explorer": "github:TuncayBasak25/explorer",
-    "file-system": "github:TuncayBasak25/file-system"
+    "file-system": "github:TuncayBasak25/file-system",
+    "terminal": "github:TuncayBasak25/terminal"
   }
 }

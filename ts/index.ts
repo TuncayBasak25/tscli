@@ -1,33 +1,27 @@
 #!/usr/bin/env node
 
+import { Folder } from "file-system";
 
-import { Folder } from "explorer";
 
 
-function commandHandler(): void {
-    const rootFolder = new Folder(__dirname);
-
-    const commandsFolder = rootFolder.findFolder({ name: "commands" });
-
-    if (!commandsFolder) {
-        throw new Error("The command folder is missing!");
-    }
+(async function(){
+    const commandsFolder = await Folder.open(__dirname, "commands");
 
     const inputList = process.argv.slice(2);
+    
+    const commandName = inputList.shift();
 
-    if (inputList.length === 0) {
+    if (!commandName) {
         //To do
         console.log("Help message");
         return;
     }
 
-    const commandName = inputList.shift();
-
     const argumentsList = inputList.filter(input => input[0] !== "-" && input[1] !== "--");
 
     const optionList = inputList.filter(input => input[0] + input[1] === "--" || input[0] === '-');
 
-    const command = commandsFolder.findOne({ name: commandName })?.require();
+    const command = await (await commandsFolder.hasEntry(commandName))?.require();
 
     if (!command) {
         //To do
@@ -37,6 +31,4 @@ function commandHandler(): void {
     }
 
     command(argumentsList, optionList);
-}
-
-commandHandler();
+})()
