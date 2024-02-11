@@ -21,7 +21,7 @@ import { Folder } from "file-system";
 
     const optionList = inputList.filter(input => input[0] + input[1] === "--" || input[0] === '-');
 
-    const command = await (await commandsFolder.hasEntry(commandName))?.require();
+    const command = await (await commandsFolder.hasEntry(commandName + ".js", commandName))?.require();
 
     if (!command) {
         //To do
