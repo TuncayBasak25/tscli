@@ -20,8 +20,8 @@ import { Folder } from "file-system";
     const argumentsList = inputList.filter(input => input[0] !== "-" && input[1] !== "--");
 
     const optionList = inputList.filter(input => input[0] + input[1] === "--" || input[0] === '-');
-
-    const command = await (await commandsFolder.hasEntry(commandName + ".js", commandName))?.require();
+    
+    const command = await (await commandsFolder.hasEntry(commandName + ".js", commandName))?.require()[commandName];
 
     if (!command) {
         //To do
@@ -32,3 +32,4 @@ import { Folder } from "file-system";
 
     command(argumentsList, optionList);
 })()
+

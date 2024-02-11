@@ -12,21 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.wcr = void 0;
 const file_system_1 = require("file-system");
 const compile_1 = require("./compile");
 const terminal_1 = __importDefault(require("terminal"));
-function default_1() {
+function wcr() {
     return __awaiter(this, void 0, void 0, function* () {
         const srcFolder = yield file_system_1.Folder.open(process.cwd(), "ts");
-        let delay = false;
-        srcFolder.watcher.on("change", () => __awaiter(this, void 0, void 0, function* () {
-            if (delay)
-                return;
-            delay = true;
-            setTimeout(() => delay = false, 1000);
-            yield (0, compile_1.compile)();
-            terminal_1.default.open("runner").run("node ./ts/index");
-        }));
+        console.log("CHANGE");
+        terminal_1.default.open("runner").kill();
+        yield (0, compile_1.compile)();
+        terminal_1.default.open("runner").run("node ./ts/index");
+        console.log("End of cycle");
+        srcFolder.watcher.once("change", wcr);
     });
 }
-exports.default = default_1;
+exports.wcr = wcr;

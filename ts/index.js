@@ -24,7 +24,7 @@ const file_system_1 = require("file-system");
         }
         const argumentsList = inputList.filter(input => input[0] !== "-" && input[1] !== "--");
         const optionList = inputList.filter(input => input[0] + input[1] === "--" || input[0] === '-');
-        const command = yield ((_a = (yield commandsFolder.hasEntry(commandName))) === null || _a === void 0 ? void 0 : _a.require());
+        const command = yield ((_a = (yield commandsFolder.hasEntry(commandName + ".js", commandName))) === null || _a === void 0 ? void 0 : _a.require()[commandName]);
         if (!command) {
             //To do
             console.log(commandName + " is not a tscli command!");

@@ -13,5 +13,9 @@ export async function compile(): Promise<void> {
     const tsFileNameList = allFileList.filter(file => file.extension === "ts").map(file => file.basename);
 
     //Delete js files that has not ts peer
-    jsFileList.filter(file => !tsFileNameList.includes(file.basename)).forEach(file => file.delete());
+    const jsToDeleteList = jsFileList.filter(file => !tsFileNameList.includes(file.basename));
+
+    for (const file of jsToDeleteList) await file.delete();
+
+    
 }

@@ -2,15 +2,17 @@ import { Folder } from "file-system";
 import { compile } from "./compile";
 import Terminal from "terminal";
 
-export default async function(): Promise<void> {
+
+export async function wcr(): Promise<void> {
     const srcFolder = await Folder.open(process.cwd(), "ts");
 
-    let delay = false;
-    srcFolder.watcher.on("change", async () => {
-        if (delay) return; delay = true; setTimeout(() => delay = false, 1000);
+    console.log("CHANGE");
+    Terminal.open("runner").kill();
 
-        await compile();
+    await compile();
 
-        Terminal.open("runner").run("node ./ts/index");
-    });
+    Terminal.open("runner").run("node ./ts/index");
+    console.log("End of cycle");
+
+    srcFolder.watcher.once("change", wcr);
 }
