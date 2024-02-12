@@ -21,7 +21,7 @@ function install(argumentsList) {
         const localModule = yield localModuleFolder.hasFolder(moduleName);
         if (localModule) {
             const targetModule = yield file_system_1.Folder.open(process.cwd(), "node_modules", moduleName);
-            localModule.copy(targetModule, ["node_modules", ".git", "package-lock.json"]);
+            localModule.copy(targetModule.path, ["node_modules", ".git", "package-lock.json"]);
             return;
         }
     });

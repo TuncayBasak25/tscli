@@ -17,7 +17,7 @@ export async function install(argumentsList: string[]): Promise<void> {
     if (localModule) {
         const targetModule = await Folder.open(process.cwd(), "node_modules", moduleName);
 
-        localModule.copy(targetModule, ["node_modules", ".git", "package-lock.json"]);
+        localModule.copy(targetModule.path, ["node_modules", ".git", "package-lock.json"]);
 
         return;
     }
