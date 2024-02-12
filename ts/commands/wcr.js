@@ -20,9 +20,9 @@ function wcr() {
     return __awaiter(this, void 0, void 0, function* () {
         const srcFolder = yield file_system_1.Folder.open(process.cwd(), "ts");
         console.log("CHANGE");
-        terminal_1.default.open("runner").kill();
+        terminal_1.default.open("app").kill();
         yield (0, compile_1.compile)();
-        terminal_1.default.open("runner").run("node ./ts/index");
+        terminal_1.default.open("app").node();
         console.log("End of cycle");
         srcFolder.watcher.once("change", wcr);
     });

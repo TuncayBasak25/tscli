@@ -7,11 +7,11 @@ export async function wcr(): Promise<void> {
     const srcFolder = await Folder.open(process.cwd(), "ts");
 
     console.log("CHANGE");
-    Terminal.open("runner").kill();
+    Terminal.open("app").kill();
 
     await compile();
 
-    Terminal.open("runner").run("node ./ts/index");
+    Terminal.open("app").node();
     console.log("End of cycle");
 
     srcFolder.watcher.once("change", wcr);
