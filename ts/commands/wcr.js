@@ -18,13 +18,13 @@ const compile_1 = require("./compile");
 const terminal_1 = __importDefault(require("terminal"));
 function wcr() {
     return __awaiter(this, void 0, void 0, function* () {
-        const srcFolder = yield file_system_1.Folder.open(process.cwd(), "ts");
+        const tsFolder = yield file_system_1.Folder.open(process.cwd(), "ts");
         console.log("CHANGE");
         terminal_1.default.open("app").kill();
         yield (0, compile_1.compile)();
         terminal_1.default.open("app").node();
         console.log("End of cycle");
-        srcFolder.watcher.once("change", wcr);
+        tsFolder.watcher.once("change", wcr);
     });
 }
 exports.wcr = wcr;
