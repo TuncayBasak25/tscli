@@ -24,8 +24,10 @@ function compile() {
         const tsFileNameList = allFileList.filter(file => file.extension === "ts").map(file => file.basename);
         //Delete js files that has not ts peer
         const jsToDeleteList = jsFileList.filter(file => !tsFileNameList.includes(file.basename));
+        const deletion = [];
         for (const file of jsToDeleteList)
-            yield file.delete();
+            deletion.push(file.delete());
+        yield Promise.all(deletion);
     });
 }
 exports.compile = compile;

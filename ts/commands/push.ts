@@ -1,6 +1,11 @@
+import Terminal from "terminal";
+import { compile } from "./compile";
 
-export default function(argumentsList: string[], optionList: string[]): void {
+export async function push(argumentsList: string[], optionList: string[]): Promise<void> {
     
-    console.log("To implement");
+    await compile();
     
+    const message = argumentsList.shift() || "Upload";
+
+    await Terminal.open("git").run("git add .", `git commit -m "${message}"`, "git push");
 }
